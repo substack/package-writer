@@ -4,12 +4,9 @@ var path = require( "path" );
 var fs = require( "fs" );
 
 module.exports = function( packageJSON, assets, outputDir ) {
+	var outputStreams = {};
 
-	var eventEmitter = new events.EventEmitter();
-
-	var assetTypes = [ "image", "style", "template" ];
-
-	assetTypes.forEach( function( assetType ) {
+	Object.keys( assets ).forEach( function( assetType ) {
 		if( ! assets[ assetType ] )
 			return;
 
@@ -22,19 +19,21 @@ module.exports = function( packageJSON, assets, outputDir ) {
 				outputStream = outputStream.pipe( combine.apply( null, transforms.map( function( t ) {
 					return require( t )( file );
 				} ) ) );
-				//outputStream = outputStream.pipe( transformStream );
 			}
 
+			outputStreams[ file ] = outputStream;
+
+			var outputFile = path.join( outputDir, path.relative( packageJSON.path, file ) );
 			if( assetType === "style" ) {
-				file = renameFileExtension( file, ".css" );
+				outputFile = renameFileExtension( outputFile, ".css" );
 			}
 
-			outputStream.pipe( fs.createWriteStream( path.join( outputDir, path.relative( packageJSON.path, file ) ) ) );
+			outputStream.pipe( fs.createWriteStream( outputFile ) );
 
 		} );
 	} );
 
-	return eventEmitter;
+	return outputStreams;
 };
 
 function renameFileExtension( file, toExt ) {
