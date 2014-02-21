@@ -5,6 +5,8 @@ var fs = require( "fs" );
 module.exports = function( packageJSON, assets, outputDir ) {
 	var outputStreams = {};
 
+	packageJSON.cartero = packageJSON.cartero || {};
+
 	Object.keys( assets ).forEach( function( assetType ) {
 		assets[ assetType ].forEach( function( file ) {
 			var transforms = packageJSON.cartero[ assetType + "Transform" ] || [];
