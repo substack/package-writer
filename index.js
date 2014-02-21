@@ -1,5 +1,4 @@
 var combine = require( "stream-combiner" );
-var events = require('events');
 var path = require( "path" );
 var fs = require( "fs" );
 
@@ -7,9 +6,6 @@ module.exports = function( packageJSON, assets, outputDir ) {
 	var outputStreams = {};
 
 	Object.keys( assets ).forEach( function( assetType ) {
-		if( ! assets[ assetType ] )
-			return;
-
 		assets[ assetType ].forEach( function( file ) {
 			var transforms = packageJSON.cartero[ assetType + "Transform" ] || [];
 
