@@ -8,9 +8,9 @@ Transforms and writes the files for a cartero package.  Returns a map of file na
 var packageWriter = require('package-writer');
 ```
 
-## packageWriter(packageJSON, assets, outputDir)
+## packageWriter(packageJSON, assets, outputDir, callback)
 
-Returns a map of file name to output stream for the transformed file contents.
+`callback`'s second parameter is a map of file name to output stream for the transformed file contents.
 
 Parameters:
 `packageJSON` - The package info for the package being written.  Should contain:
@@ -36,6 +36,6 @@ var assets = {
 
 var outputDir = "/path/to/app/static/package1Output";
 
-var outputStreams = packageWriter( packageJSON, assets, outputDir );
+var outputStreams = packageWriter( packageJSON, assets, outputDir, function( err, outputStreams ) {} );
 
 ```
