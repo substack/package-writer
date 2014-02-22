@@ -1,6 +1,6 @@
 {
   "name": "package-writer",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -9,6 +9,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "stream-combiner": "0.0.4"
+    "stream-combiner": "0.0.4",
+    "resolve": "~0.6.1"
   }
 }

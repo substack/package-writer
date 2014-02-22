@@ -1,6 +1,7 @@
 var combine = require( "stream-combiner" );
 var path = require( "path" );
 var fs = require( "fs" );
+var resolve = require( "resolve" );
 
 module.exports = function( packageJSON, assets, outputDir ) {
 	var outputStreams = {};
@@ -15,7 +16,7 @@ module.exports = function( packageJSON, assets, outputDir ) {
 
 			if( transforms.length !== 0 ) {
 				outputStream = outputStream.pipe( combine.apply( null, transforms.map( function( t ) {
-					return require( t )( file );
+					return require( resolve.sync( t, { basedir : packageJSON.path } ) )( file );
 				} ) ) );
 			}
 
