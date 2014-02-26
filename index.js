@@ -50,10 +50,12 @@ module.exports = function( packageJSON, assets, outputDir, callback ) {
 			} );
 
 		}, function( err ) {
+			console.dir( "helloooo" );
 			callback( err );
 		} );
 
 	}, function( err ) {
+		console.dir( "helloooo2" );
 		return callback( err, outputStreams );
 	} );
 };
