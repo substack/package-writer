@@ -15,12 +15,9 @@ module.exports = function( packageJSON, assets, outputDir, callback ) {
 
 		async.each( assets[ assetType ], function( file, callback ) {
 			var outputStream = fs.createReadStream( file );
-
 			async.map( transforms, function( t, callback ) {
 				resolve( t, { basedir : packageJSON.path }, function( err, res ) {
-					if( err )
-						return callback( err );
-					console.log( res );
+					if( err ) return callback( err );
 					callback( null, require( res ) );
 				} );
 			}, function( err, results ) {
@@ -30,8 +27,7 @@ module.exports = function( packageJSON, assets, outputDir, callback ) {
 				var outputFile = path.join( outputDir, path.relative( packageJSON.path, file ) );
 
 				mkdirp( path.dirname( outputFile ), function( err ) {
-					if( err )
-						return callback( err );
+					if( err ) return callback( err );
 
 					if( results.length !== 0 )
 						outputStream = outputStream.pipe( combine.apply( null, results.map( function( t ) {
@@ -50,12 +46,10 @@ module.exports = function( packageJSON, assets, outputDir, callback ) {
 			} );
 
 		}, function( err ) {
-			console.dir( "helloooo" );
 			callback( err );
 		} );
 
 	}, function( err ) {
-		console.dir( "helloooo2" );
 		return callback( err, outputStreams );
 	} );
 };
