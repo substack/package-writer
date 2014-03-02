@@ -4,6 +4,7 @@ var fs = require( "fs" );
 var resolve = require( "resolve" );
 var async = require( "async" );
 var mkdirp = require( "mkdirp" );
+var through2 = require( "through2" );
 
 module.exports = function( packageJSON, assets, outputDir, callback ) {
 	var outputStreams = {};
@@ -40,7 +41,7 @@ module.exports = function( packageJSON, assets, outputDir, callback ) {
 					}
 
 					outputStream.pipe( fs.createWriteStream( outputFile ) );
-					outputStreams[ file ] = outputStream;
+					outputStreams[ file ] = outputStream.pipe( through2() );
 					callback();
 				} );
 			} );
